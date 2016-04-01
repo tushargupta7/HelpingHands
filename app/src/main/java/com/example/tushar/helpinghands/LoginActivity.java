@@ -3,10 +3,14 @@ package com.example.tushar.helpinghands;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +28,7 @@ import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -32,6 +37,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
@@ -60,7 +66,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, OnClickListener {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -87,14 +93,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     private CallbackManager callbackManager;
     private UserDetails userDetails;
+    private TextView adminLogin;
+    private TextView adminVerifyBtn;
+    private TextView adminCancelBtn;
+    private AlertDialog adminDialog;
+    private int tapCount;
+    private EditText adminPassword;
+    private Button mEmailSignInButton;
     private ArrayList<String> adminList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.activity_login);
+        showOpeningAppDialog();
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        adminLogin = (TextView)findViewById(R.id.admin_login);
+        adminLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(++tapCount >= 7) {
+                    tapCount=0;
+                    showAdminLoginDialog();
+                }
+            }
+        });
         populateAutoComplete();
         userDetails=new UserDetails();
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -109,28 +133,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
+        mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        mEmailSignInButton.setOnClickListener(this);
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        adminList=new ArrayList<String>();
+        adminList = new ArrayList<String>();
         adminList.add("tushar gupta");
 
-        fbProfilePic=(ImageView)findViewById(R.id.fb_pro_pic);
+        fbProfilePic = (ImageView) findViewById(R.id.fb_pro_pic);
         LoginButton button = (LoginButton) findViewById(R.id.login_button);
         button.setReadPermissions(Arrays.asList(
                 "public_profile", "email", "user_birthday", "user_friends"));
 
         callbackManager = CallbackManager.Factory.create();
-        String email=null;
-        String birthday=null;
+        String email = null;
+        String birthday = null;
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
@@ -149,8 +168,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                             userDetails.setDob(object.getString("birthday"));
                                             userDetails.setFbUserId(object.getString("id"));
                                             setFacebookProfilePicture(object.getString("id"));
-                                            launchNextActivity();
-                                      //      Log.v("LoginActivity","email is "+email+" birthday is "+birthday );
+                                            //      Log.v("LoginActivity","email is "+email+" birthday is "+birthday );
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
@@ -161,8 +179,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         parameters.putString("fields", "id,name,email,gender,birthday");
                         request.setParameters(parameters);
                         request.executeAsync();
-
-
                     }
 
                     @Override
@@ -178,18 +194,74 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     }
                 });
 
-
+      //  launchFormPage();
     }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id == R.id.admin_verify) {
+            if (adminPassword.getText().toString().equals("tushar")) {
+                Intent intent = new Intent(LoginActivity.this, FormFillActivity.class);
+                startActivity(intent);
+            }
+            adminDialog.dismiss();
+        } else if (id == R.id.admin_cancel) {
+            if (adminDialog != null) {
+                adminDialog.dismiss();
+            }
+        }else if(id==R.id.email_sign_in_button){
+            attemptLogin();
+        }
+    }
+
+    private void showOpeningAppDialog(){
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View view = factory.inflate(R.layout.opening_dialog, null);
+        dialog.setView(view);
+        final AlertDialog alert = dialog.create();
+        alert.show();
+
+        new CountDownTimer(5000, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onFinish() {
+                // TODO Auto-generated method stub
+                alert.dismiss();
+            }
+        }.start();
+    }
+
+    private void showAdminLoginDialog() {
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View view = factory.inflate(R.layout.admin_login_dialog, null);
+        adminPassword = (EditText)view.findViewById(R.id.admin_password);
+        adminVerifyBtn = (TextView)view.findViewById(R.id.admin_verify);
+        adminCancelBtn = (TextView)view.findViewById(R.id.admin_cancel);
+        adminVerifyBtn.setOnClickListener(this);
+        adminCancelBtn.setOnClickListener(this);
+        dialog.setView(view);
+        adminDialog = dialog.create();
+        adminDialog.show();
+    }
+
+
 
     private void launchNextActivity() {
         if(adminList.contains(userDetails.getName().toLowerCase())){
-            launchFormPage();
+            //launchFormPage();
         }
     }
 
     private void launchFormPage() {
-        Intent formPageLaunch=new Intent(LoginActivity.this,FormFillActivity.class);
-        startActivity(formPageLaunch);
+
     }
 
     public void setFacebookProfilePicture(String userId){

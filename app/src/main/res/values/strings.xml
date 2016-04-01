@@ -17,4 +17,5 @@
     <string name="submit_form">Submit</string>
     <string name="next_form">Next</string>
     <string name="form_heading">Child Details</string>
+    <string name="title_activity_information_tabs">InformationTabsActivity</string>
 </resources>
