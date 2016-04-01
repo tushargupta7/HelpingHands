@@ -3,7 +3,10 @@ package com.example.tushar.helpinghands;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,9 +31,29 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import User.UserDetails;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -41,6 +65,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Id to identity READ_CONTACTS permission request.
      */
+    private ImageView fbProfilePic;
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
@@ -60,15 +85,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-
+    private CallbackManager callbackManager;
+    private UserDetails userDetails;
+    private ArrayList<String> adminList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-
+        userDetails=new UserDetails();
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -91,6 +119,113 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        adminList=new ArrayList<String>();
+        adminList.add("tushar gupta");
+
+        fbProfilePic=(ImageView)findViewById(R.id.fb_pro_pic);
+        LoginButton button = (LoginButton) findViewById(R.id.login_button);
+        button.setReadPermissions(Arrays.asList(
+                "public_profile", "email", "user_birthday", "user_friends"));
+
+        callbackManager = CallbackManager.Factory.create();
+        String email=null;
+        String birthday=null;
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        // App code
+                        GraphRequest request = GraphRequest.newMeRequest(
+                                loginResult.getAccessToken(),
+                                new GraphRequest.GraphJSONObjectCallback() {
+                                    @Override
+                                    public void onCompleted(JSONObject object, GraphResponse response) {
+                                        Log.v("LoginActivity", response.toString());
+                                        // Application code
+                                        try {
+                                            userDetails.setName(object.getString("name"));
+                                            userDetails.seteMail(object.getString("email"));
+                                            userDetails.setDob(object.getString("birthday"));
+                                            userDetails.setFbUserId(object.getString("id"));
+                                            setFacebookProfilePicture(object.getString("id"));
+                                      //      Log.v("LoginActivity","email is "+email+" birthday is "+birthday );
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        // 01/31/1980 format
+                                    }
+                                });
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields", "id,name,email,gender,birthday");
+                        request.setParameters(parameters);
+                        request.executeAsync();
+                        launchNextActivity();
+
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // App code
+                        Log.v("LoginActivity", "cancel");
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        // App code
+                        Log.v("LoginActivity", exception.getCause().toString());
+                    }
+                });
+
+
+    }
+
+    private void launchNextActivity() {
+        if(adminList.contains(userDetails.getName().toLowerCase())){
+            launchFormPage();
+        }
+    }
+
+    private void launchFormPage() {
+        Intent formPageLaunch=new Intent(LoginActivity.this,FormFillActivity.class);
+        startActivity(formPageLaunch);
+    }
+
+    public void setFacebookProfilePicture(String userId){
+       //Bitmap bitmap = null;
+       Runnable r = new MyThread(userId);
+       new Thread(r).start();
+    }
+
+    public class MyThread implements Runnable {
+        String userId;
+        Bitmap bitmap;
+        public MyThread(String userid) {
+            // store parameter for later user
+            userId=userid;
+        }
+
+        public void run() {
+            try {
+                URL imageUrl = new URL("https://graph.facebook.com/" + userId + "/picture?type=large");
+                bitmap = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
+                userDetails.setFbProfilePic(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+          runOnUiThread(new Runnable() {
+              @Override
+              public void run() {
+                  fbProfilePic.setImageBitmap(bitmap);
+              }
+          });
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void populateAutoComplete() {
