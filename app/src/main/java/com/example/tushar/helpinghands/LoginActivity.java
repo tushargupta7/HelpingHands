@@ -149,6 +149,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                             userDetails.setDob(object.getString("birthday"));
                                             userDetails.setFbUserId(object.getString("id"));
                                             setFacebookProfilePicture(object.getString("id"));
+                                            launchNextActivity();
                                       //      Log.v("LoginActivity","email is "+email+" birthday is "+birthday );
                                         } catch (JSONException e) {
                                             e.printStackTrace();
@@ -160,7 +161,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         parameters.putString("fields", "id,name,email,gender,birthday");
                         request.setParameters(parameters);
                         request.executeAsync();
-                        launchNextActivity();
+
 
                     }
 
