@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        card_view:cardCornerRadius="2dp"
+        card_view:contentPadding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="2.5">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="Sponsor Name   :"
+                    android:lines="1"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    android:layout_marginTop="7dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:textStyle="bold"
+                    android:text="Sponsored to      :"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    android:layout_marginTop="7dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:textStyle="bold"
+                    android:text="Child Unique Id   :"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    android:layout_marginTop="7dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:textStyle="bold"
+                    android:text="Sponsored item  :"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    android:layout_marginTop="7dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:textStyle="bold"
+                    android:text="Sponsored on      :"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    android:layout_marginTop="7dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="4">
+
+                <TextView
+                    android:id="@+id/edit_sponsor_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="Tushar"
+                    android:lines="1"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="15dp"
+                    android:layout_marginTop="7dp" />
+
+
+                <TextView
+                    android:id="@+id/edit_sponsored_child"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="Tushar"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/edit_unique_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="Tushar"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/edit_sponsored_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:textStyle="bold"
+                    android:text="Tushar"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="15dp"
+                    android:layout_marginTop="7dp" />
+                <TextView
+                    android:id="@+id/edit_sponsored_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:textStyle="bold"
+                    android:text="Tushar"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="15dp"
+                    android:layout_marginTop="7dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>
