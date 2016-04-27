@@ -100,6 +100,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private int tapCount;
     private EditText adminPassword;
     private Button mEmailSignInButton;
+    private TextView skipRegistration;
     private ArrayList<String> adminList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +110,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         showOpeningAppDialog();
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        skipRegistration = (TextView)findViewById(R.id.skip_registration);
+        skipRegistration.setOnClickListener(this);
         adminLogin = (TextView)findViewById(R.id.admin_login);
         adminLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,6 +215,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         }else if(id==R.id.email_sign_in_button){
             attemptLogin();
+        }else if(id==R.id.skip_registration){
+            Intent intent = new Intent(LoginActivity.this, InformationTabsActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -223,7 +229,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         final AlertDialog alert = dialog.create();
         alert.show();
 
-        new CountDownTimer(5000, 1000) {
+        new CountDownTimer(1000, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {

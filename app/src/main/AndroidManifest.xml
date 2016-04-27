@@ -37,7 +37,10 @@
 
         <activity
             android:name=".InformationTabsActivity"
-            android:label="@string/title_activity_information_tabs"
+            android:label="@string/title_activity_information_tabs" />
+        <activity
+            android:name=".StudentDetailsActivity"
+            android:label="@string/title_activity_student_details"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
