@@ -17,6 +17,15 @@
     <string name="submit_form">Submit</string>
     <string name="next_form">Next</string>
     <string name="form_heading">Child Details</string>
+    <string name="enter_otp">_ _ _ _ _</string>
+    <string name="confirm_otp">CONFIRM</string>
     <string name="title_activity_information_tabs">InformationTabsActivity</string>
     <string name="title_activity_student_details">StudentDetailsActivity</string>
+    <string name="add_new_orphanage"><U>Not in list</U></string>
+    <string name="orphanage_name">Orphanage Name</string>
+    <string name="orphanage_address_L1">Address Line1</string>
+    <string name="orphanage_address_L2">Address Line2</string>
+    <string name="phone_number">Contact No.</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>

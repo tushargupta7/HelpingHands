@@ -14,13 +14,57 @@ public class UserDetails {
     private String fbUserId;
     private Bitmap fbProfilePic;
     private String eMail;
+    private String uuid;
+    private String status;
+    private String token;
+    private String mobile;
+    static UserDetails _instance;
+
+    public static UserDetails getinstance() {
+        if(_instance==null){
+            _instance= new UserDetails();
+        }
+        return _instance;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        _instance.mobile = mobile;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        _instance.uuid = uuid;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        _instance.status = status;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        _instance.token = token;
+    }
 
     public String geteMail() {
         return eMail;
     }
 
     public void seteMail(String eMail) {
-        this.eMail = eMail;
+        _instance.eMail = eMail;
     }
 
     public Bitmap getFbProfilePic() {
@@ -28,7 +72,7 @@ public class UserDetails {
     }
 
     public void setFbProfilePic(Bitmap fbProfilePic) {
-        this.fbProfilePic = fbProfilePic;
+        _instance.fbProfilePic = fbProfilePic;
     }
 
     public String getName() {
@@ -36,7 +80,7 @@ public class UserDetails {
     }
 
     public void setName(String name) {
-        this.name = name;
+        _instance.name = name;
     }
 
     public String getDob() {
@@ -44,7 +88,7 @@ public class UserDetails {
     }
 
     public void setDob(String dob) {
-        this.dob = dob;
+        _instance.dob = dob;
     }
 
     public String getGender() {
@@ -52,7 +96,7 @@ public class UserDetails {
     }
 
     public void setGender(String gender) {
-        this.gender = gender;
+        _instance.gender = gender;
     }
 
     public String getFbUserId() {
@@ -60,6 +104,6 @@ public class UserDetails {
     }
 
     public void setFbUserId(String fbUserId) {
-        this.fbUserId = fbUserId;
+        _instance.fbUserId = fbUserId;
     }
 }

@@ -26,7 +26,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class InformationTabsActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
@@ -78,7 +77,7 @@ public class InformationTabsActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new StudentCardViewFragment(this), "Children");
+        adapter.addFragment(new StudentCardViewFragment(), "Children");
         adapter.addFragment(new SchoolOrphanageFragment(this), "Orphanages");
         adapter.addFragment(new RecentTransactionsFragment(this), "Recent Transactions");
         viewPager.setAdapter(adapter);

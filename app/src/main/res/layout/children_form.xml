@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="20dp">
 
     <ScrollView
@@ -13,96 +14,153 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/form_heading"
-        android:textColor="@android:color/black"
-        android:layout_gravity="center_horizontal"
-        android:textSize="26sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/form_heading"
+                android:textColor="@android:color/black"
+                android:textSize="26sp" />
 
-    <EditText
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/child_name"
-        android:hint="Child Name" />
+            <EditText
+                android:id="@+id/child_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:ems="10"
+                android:hint="Child Name"
+                android:inputType="textPersonName" />
 
-    <EditText
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/parent_name"
-        android:hint="Parent/Gaurdian Name" />
+            <EditText
+                android:id="@+id/parent_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:ems="10"
+                android:hint="Parent/Gaurdian Name"
+                android:inputType="textPersonName" />
 
-    <EditText
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/child_dob"
-        android:hint="DOB (DD/MM/YY)" />
+            <EditText
+                android:id="@+id/child_dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:ems="10"
+                android:hint="DOB (DD/MM/YY)"
+                android:inputType="date" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/child_school"
-        android:layout_margin="20dp"
-        android:hint="School/Orpahanage Name" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="20dp">
 
-    <EditText
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPostalAddress"
-        android:ems="10"
-        android:id="@+id/child_address"
-        android:hint="Address" />
+                <Spinner
+                    android:id="@+id/orphans_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:layout_gravity="center_vertical"
+                     />
 
-    <EditText
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="addNewOrphanage"
+                    android:text="@string/add_new_orphanage"
+                    android:clickable="true"
+                    android:layout_marginLeft="20dp" />
+            </LinearLayout>
 
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="phone"
-        android:ems="10"
-        android:id="@+id/child_contact"
-        android:hint="Contact no." />
 
-    <EditText
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/child_email"
-        android:hint="Email" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="80dp"
-            android:text="@string/submit_form"
-            android:id="@+id/submit_form" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="80dp"
-            android:text="@string/next_form"
-            android:layout_marginLeft="40dp"
-            android:id="@+id/next_child_buton" />
-    </LinearLayout>
+
+
+
+            <EditText
+                android:id="@+id/child_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:ems="10"
+                android:hint="Address"
+                android:inputType="textPostalAddress" />
+
+            <EditText
+
+                android:id="@+id/child_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:ems="10"
+                android:hint="Contact no."
+                android:inputType="phone" />
+
+            <EditText
+                android:id="@+id/child_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:ems="10"
+                android:hint="Email"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/parent_income"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:ems="6"
+                android:hint="Parent Income"
+                android:inputType="number" />
+
+            <EditText
+                android:layout_margin="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/child_class"
+                android:hint="Academic class" />
+
+            <EditText
+                android:layout_margin="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/highest_class"
+                android:hint="10th/12th" />
+
+            <EditText
+                android:layout_margin="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="3"
+                android:id="@+id/acad_perfo"
+                android:hint="%percentage" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <Button
+                    android:id="@+id/submit_form"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="80dp"
+                    android:text="@string/submit_form" />
+
+                <Button
+                    android:id="@+id/next_child_buton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:minWidth="80dp"
+                    android:text="@string/next_form" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -80,7 +80,7 @@ public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
                     R.layout.student_recycler_view, container, false);
             RecyclerView recyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_view);
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(setData());
+           // recyclerView.setAdapter(setData());
             return rootView;
         }
     }
@@ -109,7 +109,7 @@ public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
-    private static StudentEntryAdapter setData(){
+/*    private static StudentEntryAdapter setData(){
         String myJsonString = null;
         List<StudentEntries> studentList = null;
         try {
@@ -133,7 +133,7 @@ public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
 
         StudentEntryAdapter studentEntryAdapter = new StudentEntryAdapter(studentList, context);
         return studentEntryAdapter;
-    }
+    }*/
 
     public static String AssetJSONFile (String filename) throws IOException {
         String json = null;
@@ -159,7 +159,7 @@ public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
         return json;
     }
 
-    public static StudentEntries getStudentEntry(JSONObject jsonObject){
+ /*   public static StudentEntries getStudentEntry(JSONObject jsonObject){
         StudentEntries studentEntry = null;
         try {
             studentEntry =new StudentEntries(jsonObject.getString("_id"), jsonObject.optString("picture").toString(), Integer.parseInt(jsonObject.optString("age").toString()), Integer.parseInt(jsonObject.optString("aclass").toString()), jsonObject.optString("name").toString(), Float.parseFloat(jsonObject.optString("performance").toString()), Integer.parseInt(jsonObject.optString("income").toString()), jsonObject.optString("gender").toString(), jsonObject.optString("school").toString(), jsonObject.optString("orphanage").toString(), jsonObject.optString("email").toString(), jsonObject.optString("phone").toString(), jsonObject.optString("address").toString(), jsonObject.optString("about").toString(), jsonObject.optString("registered").toString(), Float.parseFloat(jsonObject.optString("latitude").toString()), Float.parseFloat(jsonObject.optString("longitude").toString()), jsonObject.getJSONArray("requirements"), jsonObject.getJSONArray("fulfilled"));
@@ -167,5 +167,5 @@ public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
             e.printStackTrace();
         }
         return studentEntry;
-    }
+    }*/
 }

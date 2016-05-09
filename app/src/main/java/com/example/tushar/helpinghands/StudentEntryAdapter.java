@@ -43,9 +43,9 @@ public class StudentEntryAdapter extends RecyclerView.Adapter<StudentEntryAdapte
     @Override
     public void onBindViewHolder(StudentEntryAdapter.ViewHolder holder, int position) {
         StudentEntries studentEntry = studentEntries.get(position);
-        holder.studentAge.setText(Integer.toString(studentEntry.getAge()));
+        holder.studentAge.setText(studentEntry.getDob());
         holder.studentName.setText(studentEntry.getName());
-        holder.studentClass.setText(Integer.toString(studentEntry.getmClass()));
+        holder.studentClass.setText(studentEntry.getCclass());
         holder.studentSchool.setText(studentEntry.getSchool());
         holder.studentImage.setImageResource(R.drawable.helping_hands);
     }

@@ -14,6 +14,15 @@ public class ChildDetails {
     String childAddress;
     String childContact;
     String childEmail;
+    String childDob;
+
+    public String getChildDob() {
+        return childDob;
+    }
+
+    public void setChildDob(String childDob) {
+        this.childDob = childDob;
+    }
 
     public String getChildAddress() {
         return childAddress;

@@ -12,12 +12,11 @@ import java.io.Serializable;
 public class StudentEntries implements Serializable {
 
     private String id;
-    private String imageUrl;
-    private int age;
-    private int mClass;
+    private String cclass;
     private String name;
-    private float performance;
-    private int income;
+    private String pname;
+    private String performance;
+    private String income;
     private String gender;
     private String school;
     private String orphanage;
@@ -26,87 +25,161 @@ public class StudentEntries implements Serializable {
     private String address;
     private String description;
     private String registeredAt;
-    private float latitude;
+    private String dob;
+    private String highClass;
+ /*   private float latitude;
     private float longitude;
     private transient JSONArray requirements;
-    private transient JSONArray fulfilled;
+    private transient JSONArray fulfilled;*/
 
-    public StudentEntries(String id, String imageUrl, int age, int mClass, String name, float performance, int income, String gender, String school, String orphanage, String email, String phoneNo, String address, String description, String registeredAt, float latitude, float longitude, JSONArray requirements, JSONArray fulfilled){
+    public StudentEntries(String id, String name, String dob, String pname, String school, String email,
+                          String address, String perfo, String pincome, String cclass, String contact,String hclass){
         this.id = id;
-        this.imageUrl = imageUrl;
-        this.age = age;
-        this.mClass = mClass;
+        this.dob=dob;
+        /*this.imageUrl = imageUrl;
+        this.age = age;*/
+        this.cclass = cclass;
         this.name = name;
-        this.performance = performance;
-        this.income = income;
-        this.gender = gender;
+        this.pname=pname;
+        this.performance = perfo;
+        this.income = pincome;
         this.school = school;
-        this.orphanage = orphanage;
         this.email = email;
-        this.phoneNo = phoneNo;
+        this.phoneNo = contact;
         this.address = address;
-        this.description = description;
-        this.registeredAt = registeredAt;
+        this.highClass=hclass;/*
         this.latitude = latitude;
         this.longitude = longitude;
         this.requirements = requirements;
-        this.fulfilled = fulfilled;
+        this.fulfilled = fulfilled;*/
     }
 
-    public int getAge(){
-        return age;
+
+    public String getId() {
+        return id;
     }
 
-    public int getmClass(){
-        return mClass;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getName(){
+    public String getCclass() {
+        return cclass;
+    }
+
+    public void setCclass(String cclass) {
+        this.cclass = cclass;
+    }
+
+    public String getName() {
         return name;
     }
 
-    public String getSchool(){
-        return school;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getGender(){
-        return gender;
+    public String getPname() {
+        return pname;
     }
 
-    public String getPhoneNo(){
-        return phoneNo;
+    public void setPname(String pname) {
+        this.pname = pname;
     }
 
-    public float getPerformance(){
+    public String getPerformance() {
         return performance;
     }
 
-    public int getIncome(){
+    public void setPerformance(String performance) {
+        this.performance = performance;
+    }
+
+    public String getIncome() {
         return income;
     }
 
-    public String getAddress(){
-        return address;
+    public void setIncome(String income) {
+        this.income = income;
     }
 
-    public String getImageUrl(){
-        return imageUrl;
+    public String getGender() {
+        return gender;
     }
 
-    public String getOrphanage(){
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public String getOrphanage() {
         return orphanage;
     }
 
-    public String getEmail(){
+    public void setOrphanage(String orphanage) {
+        this.orphanage = orphanage;
+    }
+
+    public String getEmail() {
         return email;
     }
 
-    public String getDescription(){
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getDescription() {
         return description;
     }
 
-    public String getRegisteredAt(){
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getRegisteredAt() {
         return registeredAt;
     }
 
+    public void setRegisteredAt(String registeredAt) {
+        this.registeredAt = registeredAt;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
+    public String getHighClass() {
+        return highClass;
+    }
+
+    public void setHighClass(String highClass) {
+        this.highClass = highClass;
+    }
 }

@@ -77,12 +77,12 @@ public class StudentDetailsFragment extends Fragment {
     private void loadData() {
         final ImageView imageView = (ImageView) rootView.findViewById(R.id.backdrop);
         Glide.with(this).load(R.drawable.cheese_1).centerCrop().into(imageView);
-        mClass.setText(Integer.toString(studentData.getmClass()));
-        mAge.setText(Integer.toString(studentData.getAge()));
+        mClass.setText(studentData.getCclass());
+        mAge.setText(studentData.getDob());
         mGender.setText(studentData.getGender());
-        mPerforance.setText(Float.toString(studentData.getPerformance()));
+        mPerforance.setText(studentData.getPerformance());
         mDescription.setText(studentData.getDescription());
-        mIncome.setText(Integer.toString(studentData.getIncome()));
+        mIncome.setText(studentData.getIncome());
         mEmailId.setText(studentData.getEmail());
         mPhoneNo.setText(studentData.getPhoneNo());
         mAddress.setText(studentData.getAddress());
