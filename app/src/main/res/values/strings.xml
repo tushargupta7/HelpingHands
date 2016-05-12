@@ -28,4 +28,5 @@
     <string name="phone_number">Contact No.</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="pincode">Pincode</string>
 </resources>
