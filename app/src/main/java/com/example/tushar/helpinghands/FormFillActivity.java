@@ -1,6 +1,7 @@
 package com.example.tushar.helpinghands;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -50,6 +52,9 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
     private Button nextChildButton;
     private Button submitButton;
     private ArrayList<ChildDetails> childrenList;
+    private Spinner spinner;
+    private TextView notInList;
+    private ProgressDialog progDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +62,7 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
         childrenList=new ArrayList<ChildDetails>();
         childNameText=(EditText)findViewById(R.id.child_name);
         parentNameText=(EditText)findViewById(R.id.parent_name);
-        Spinner spinner = (Spinner) findViewById(R.id.orphans_spinner);
+        spinner = (Spinner) findViewById(R.id.orphans_spinner);
         spinner.setOnItemSelectedListener(this);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.planets_array, android.R.layout.simple_spinner_item);
@@ -74,10 +79,18 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
         childHighClass=(EditText)findViewById(R.id.highest_class);
         childPerfo=(EditText)findViewById(R.id.acad_perfo);
         pIncome=(EditText)findViewById(R.id.parent_income);
+        notInList=(TextView)findViewById(R.id.not_in_list);
+        notInList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addNewOrphanage();
+            }
+        });
         nextChildButton=(Button)findViewById(R.id.next_child_buton);
         submitButton=(Button)findViewById(R.id.submit_form);
         submitButton.setOnClickListener(this);
         nextChildButton.setOnClickListener(this);
+
     }
 
     public void addNewOrphanage(){
@@ -89,7 +102,10 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addNewOrphanageToServerDb();
+                addNewOrphanageToServerDb(dialog);
+                progDialog = ProgressDialog.show(FormFillActivity.this, "",
+                        "Loading. Please wait...", true);
+                dialog.dismiss();
             }
         });
         Button dialogCancelButton= (Button)dialog.findViewById(R.id.dialogButtonCancel);
@@ -102,8 +118,62 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
         dialog.show();
     }
 
-    private void addNewOrphanageToServerDb() {
+    private void addNewOrphanageToServerDb(Dialog dialog) {
+        EditText orphanageName=(EditText)dialog.findViewById(R.id.orphanage_name_text);
+        EditText orphanageAddress1=(EditText)dialog.findViewById(R.id.orphanage_address1_text);
+        EditText orphanageAddress2=(EditText)dialog.findViewById(R.id.orphanage_address2_text);
+        EditText orphanagePincode=(EditText)dialog.findViewById(R.id.orphanage_pincode_text);
+        EditText orphanageContact=(EditText)dialog.findViewById(R.id.orphanage_phone_text);
+       try {
+           JSONObject orphanage = new JSONObject();
+           orphanage.put("name", orphanageName.getText().toString());
+           orphanage.put("address1",orphanageAddress1.getText().toString());
+           orphanage.put("address2",orphanageAddress2.getText().toString());
+           orphanage.put("pincode",orphanagePincode.getText().toString());
+           orphanage.put("contact",orphanageContact.getText().toString());
+           doRequestForCreation(orphanage);
+       }
+    catch (Exception e){
+        e.printStackTrace();
+    }
+    }
 
+    private void doRequestForCreation(JSONObject orphanage) {
+        String url="http://192.168.43.187:3000/addOrphanage";
+        final HashMap<String,String> mheader=new HashMap<>();
+        mheader.put("Content-Type", "application/json; charset=utf-8");
+        JsonObjectRequest newOrphanageRequestApi=new JsonObjectRequest(Request.Method.POST, url,orphanage, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+              showInSpinner(response);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                return mheader;
+            }
+        };
+        newOrphanageRequestApi.setRetryPolicy(new DefaultRetryPolicy(100000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(getBaseContext()).add(newOrphanageRequestApi);
+    }
+
+    private void showInSpinner(JSONObject response) {
+        spinner.setVisibility(View.GONE);
+        notInList.setVisibility(View.GONE);
+        TextView orphanageTextView=(TextView)findViewById(R.id.orphanage_name_textview);
+        try {
+            progDialog.dismiss();
+            orphanageTextView.setText(response.getString("oid")+" "+response.getString("name"));
+            orphanageTextView.setVisibility(View.VISIBLE);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -151,7 +221,7 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void saveChildrenList(JSONObject obj) {
-        String Url="http://192.168.1.14:3000/";
+        String Url="http://192.168.43.187:3000/";
         String saveChildUrl=Url+"addchild";
         final HashMap<String,String> mHeader=new HashMap<>();
         mHeader.put("Content-Type", "application/json; charset=utf-8");
