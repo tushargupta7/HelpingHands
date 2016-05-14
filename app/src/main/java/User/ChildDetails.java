@@ -10,9 +10,7 @@ public class ChildDetails {
     String childParentIncome;
     String childacadScore;
     String childHighestClass;
-    String childSchool;
-    String childAddress;
-    String childContact;
+    String childOrphanage;
     String childEmail;
     String childDob;
 
@@ -24,20 +22,12 @@ public class ChildDetails {
         this.childDob = childDob;
     }
 
-    public String getChildAddress() {
-        return childAddress;
+    public String getChildOrphanage() {
+        return childOrphanage;
     }
 
-    public void setChildAddress(String childAddress) {
-        this.childAddress = childAddress;
-    }
-
-    public String getChildContact() {
-        return childContact;
-    }
-
-    public void setChildContact(String childContact) {
-        this.childContact = childContact;
+    public void setChildOrphanage(String childOrphanage) {
+        this.childOrphanage = childOrphanage;
     }
 
     public String getChildEmail() {
@@ -96,11 +86,4 @@ public class ChildDetails {
         this.childHighestClass = childHighestClass;
     }
 
-    public String getChildSchool() {
-        return childSchool;
-    }
-
-    public void setChildSchool(String childSchool) {
-        this.childSchool = childSchool;
-    }
 }

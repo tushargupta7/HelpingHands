@@ -3,9 +3,7 @@ package com.example.tushar.helpinghands;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,7 +26,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,6 +52,7 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
     private Spinner spinner;
     private TextView notInList;
     private ProgressDialog progDialog;
+    private ArrayList<String> orphanageList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,14 +60,9 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
         childrenList=new ArrayList<ChildDetails>();
         childNameText=(EditText)findViewById(R.id.child_name);
         parentNameText=(EditText)findViewById(R.id.parent_name);
+        initializeRegisteredOrphanageList();
         spinner = (Spinner) findViewById(R.id.orphans_spinner);
         spinner.setOnItemSelectedListener(this);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.planets_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
         //childSchoolName=(EditText)findViewById(R.id.child_school);
         date=(EditText)findViewById(R.id.child_dob);
         address=(EditText)findViewById(R.id.child_address);
@@ -93,6 +86,52 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    private void initializeRegisteredOrphanageList() {
+        progDialog = ProgressDialog.show(FormFillActivity.this, "",
+                "Loading. Please wait...", true);
+        String url="http://192.168.43.187:3000/orphanagelist";
+        final HashMap<String,String> mheader=new HashMap<>();
+        mheader.put("Content-Type", "application/json; charset=utf-8");
+        JsonObjectRequest newOrphanageRequestApi=new JsonObjectRequest(Request.Method.GET, url,new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+              createOrphanageArrayList(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            Log.e("FormFillActivity","failed to get orphanageList");
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                return mheader;
+            }
+        };
+        newOrphanageRequestApi.setRetryPolicy(new DefaultRetryPolicy(100000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(getBaseContext()).add(newOrphanageRequestApi);
+    }
+
+    private void createOrphanageArrayList(JSONObject response) {
+        orphanageList=new ArrayList<String>();
+        try {
+            JSONArray orphanageListJsonArray=response.getJSONArray("orphanage");
+            for (int i=0;i<orphanageListJsonArray.length();i++){
+                JSONObject orphanage=orphanageListJsonArray.getJSONObject(i);
+                orphanageList.add(orphanage.getString("_id")+" "+orphanage.getString("name"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter(this,
+                android.R.layout.simple_spinner_item,orphanageList);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+       progDialog.dismiss();
+    }
+
     public void addNewOrphanage(){
         final Dialog dialog=new Dialog(this);
         dialog.setContentView(R.layout.custom_orphan_dialog);
@@ -103,8 +142,7 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onClick(View v) {
                 addNewOrphanageToServerDb(dialog);
-                progDialog = ProgressDialog.show(FormFillActivity.this, "",
-                        "Loading. Please wait...", true);
+                progDialog.show();
                 dialog.dismiss();
             }
         });
@@ -203,12 +241,10 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
                 childrenDetails.put("name", child.getChildName());
                 childrenDetails.put("pname", child.getParentName());
                 childrenDetails.put("perfo", child.getChildacadScore());
-                childrenDetails.put("address", child.getChildAddress());
+                childrenDetails.put("orphanageId", child.getChildOrphanage());
                 childrenDetails.put("class", child.getChildClass());
-                childrenDetails.put("contact", child.getChildContact());
                 childrenDetails.put("email", child.getChildEmail());
                 childrenDetails.put("hclass", child.getChildHighestClass());
-                childrenDetails.put("school", child.getChildSchool());
                 childrenDetails.put("pincome", child.getChildParentIncome());
                 childrenDetails.put("dob",child.getChildDob());
                 childArray.put(childrenDetails);
@@ -249,16 +285,20 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
         ChildDetails childDetail= new ChildDetails();
         childDetail.setChildName(childNameText.getText().toString());
         childDetail.setParentName(parentNameText.getText().toString());
-        childDetail.setChildAddress(address.getText().toString());
-        childDetail.setChildContact(contactNumber.getText().toString());
+        childDetail.setChildOrphanage(getTrimmedOid(spinner.getSelectedItem().toString()));
         childDetail.setChildEmail(email.getText().toString());
-        childDetail.setChildSchool(childSchoolName.getText().toString());
         childDetail.setChildClass(childClass.getText().toString());
         childDetail.setChildacadScore(childPerfo.getText().toString());
         childDetail.setChildHighestClass(childHighClass.getText().toString());
         childDetail.setChildParentIncome(pIncome.getText().toString());
         childDetail.setChildDob(date.getText().toString());
         childrenList.add(childDetail);
+    }
+
+    private String getTrimmedOid(String s) {
+        String[] spinnerTextSplitter=s.split(" ");
+        String OrphanageId=spinnerTextSplitter[0];
+        return OrphanageId;
     }
 
     @Override
