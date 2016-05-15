@@ -73,6 +73,7 @@ public class OrphanageDetailsActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new OrphanageDetailsFragment(this, intent, schoolOrphanageEntry), "Details");
+        adapter.addFragment(new OrphanageDetailsFragment(this, intent, schoolOrphanageEntry), "Students");
         adapter.addFragment(new OrphanageDetailsFragment(this, intent, schoolOrphanageEntry), "Requirements");
         adapter.addFragment(new OrphanageDetailsFragment(this, intent, schoolOrphanageEntry), "Fulfilled");
         viewPager.setAdapter(adapter);
