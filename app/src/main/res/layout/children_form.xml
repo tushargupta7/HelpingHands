@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp">
 
     <ScrollView
+        android:id="@+id/add_child_section"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/form_heading"
+                android:text="Add Child"
                 android:textColor="@android:color/black"
                 android:textSize="26sp" />
 
@@ -41,6 +44,7 @@
                 android:hint="Parent/Gaurdian Name"
                 android:inputType="textPersonName" />
 
+
             <EditText
                 android:id="@+id/child_dob"
                 android:layout_width="match_parent"
@@ -53,39 +57,58 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_margin="20dp">
+                android:layout_margin="20dp"
+                android:orientation="vertical">
 
                 <Spinner
                     android:id="@+id/orphans_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.7"
                     android:layout_gravity="center_vertical"
-                     />
+                    android:layout_margin="20dp"
+                    android:layout_weight="0.7" />
 
                 <TextView
                     android:id="@+id/not_in_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_new_orphanage"
+                    android:layout_margin="20dp"
                     android:clickable="true"
-                    android:layout_marginLeft="20dp" />
+                    android:text="@string/add_new_orphanage" />
 
                 <TextView
                     android:id="@+id/orphanage_name_textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:clickable="false"
-                    android:visibility="gone"
-                    android:layout_gravity="center_vertical"/>
+                    android:visibility="gone" />
             </LinearLayout>
 
 
+            <EditText
+                android:id="@+id/parent_income"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:ems="6"
+                android:hint="Parent Income"
+                android:inputType="number" />
 
+            <EditText
+                android:id="@+id/child_school"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:hint="School/Orpahanage Name" />
 
-
-
+            <EditText
+                android:id="@+id/child_class"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:ems="10"
+                android:hint="Academic class" />
 
             <EditText
                 android:id="@+id/child_address"
@@ -95,6 +118,14 @@
                 android:ems="10"
                 android:hint="Address"
                 android:inputType="textPostalAddress" />
+
+            <EditText
+                android:id="@+id/highest_class"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:ems="10"
+                android:hint="10th/12th" />
 
             <EditText
 
@@ -107,6 +138,15 @@
                 android:inputType="phone" />
 
             <EditText
+                android:id="@+id/acad_perfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:ems="3"
+                android:hint="%percentage"
+                android:inputType="number" />
+
+            <EditText
                 android:id="@+id/child_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -115,60 +155,180 @@
                 android:hint="Email"
                 android:inputType="textEmailAddress" />
 
-            <EditText
-                android:id="@+id/parent_income"
-                android:layout_width="match_parent"
+
+
+                <Button
+                    android:id="@+id/add_next_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:minWidth="80dp"
+                    android:text="@string/next" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/update_child_section"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:ems="6"
-                android:hint="Parent Income"
-                android:inputType="number" />
+                android:layout_gravity="center_horizontal"
+                android:text="Add Requirements"
+                android:textColor="@android:color/black"
+                android:textSize="26sp" />
 
             <EditText
-                android:layout_margin="20dp"
+                android:id="@+id/update_child_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:id="@+id/child_class"
-                android:hint="Academic class" />
+                android:hint="Child Name"
+                android:inputType="textPersonName" />
 
             <EditText
-                android:layout_margin="20dp"
+                android:id="@+id/update_child_dob"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:id="@+id/highest_class"
-                android:hint="10th/12th" />
+                android:hint="DOB (DD/MM/YY)"
+                android:inputType="date" />
 
-            <EditText
-                android:layout_margin="20dp"
+            <Spinner
+                android:id="@+id/update_orphans_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="3"
-                android:id="@+id/acad_perfo"
-                android:hint="%percentage" />
+                android:entries="@array/planets_array"
+                android:layout_gravity="center_vertical" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal">
+                android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/submit_form"
-                    android:layout_width="wrap_content"
+                <CheckBox
+                    android:id="@+id/item_11"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:minWidth="80dp"
-                    android:text="@string/submit_form" />
+                    android:layout_weight="8"
+                    android:padding="5dp"
+                    android:text="Item 1" />
 
-                <Button
-                    android:id="@+id/next_child_buton"
-                    android:layout_width="wrap_content"
+                <Spinner
+                    android:id="@+id/item_11_quantity"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
-                    android:minWidth="80dp"
-                    android:text="@string/next_form" />
+                    android:layout_weight="1"
+                    android:entries="@array/quantity"></Spinner>
             </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/item_22"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:padding="5dp"
+                    android:text="Item 1" />
+
+                <Spinner
+                    android:id="@+id/item_22_quantity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:entries="@array/quantity"></Spinner>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/item_33"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:padding="5dp"
+                    android:text="Item 1" />
+
+                <Spinner
+                    android:id="@+id/item_33_quantity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:entries="@array/quantity"></Spinner>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/item_44"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:padding="5dp"
+                    android:text="Item 1" />
+
+                <Spinner
+                    android:id="@+id/item_44_quantity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:entries="@array/quantity"></Spinner>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/item_55"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:padding="5dp"
+                    android:text="Item 1" />
+
+                <Spinner
+                    android:id="@+id/item_55_quantity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:entries="@array/quantity"></Spinner>
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/update_save_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:minWidth="80dp"
+                android:text="@string/save" />
+
+
         </LinearLayout>
+
+
     </ScrollView>
 </LinearLayout>

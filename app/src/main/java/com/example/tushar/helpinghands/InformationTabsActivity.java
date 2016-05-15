@@ -1,6 +1,8 @@
 package com.example.tushar.helpinghands;
 
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -66,6 +68,11 @@ public class InformationTabsActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -84,10 +91,25 @@ public class InformationTabsActivity extends AppCompatActivity {
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
+        if(Preferences.getInstance(this).getLoggedInAsAdmin()) {
+            navigationView.getMenu().findItem(R.id.admin_tools).setVisible(true);
+            /*(navigationView.getMenu().findItem(R.id.add_child)).setVisible(true);
+            (navigationView.getMenu().findItem(R.id.update_child)).setVisible(true);*/
+        }
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        int id = menuItem.getItemId();
+                        if(id==R.id.add_child){
+                            Intent intent = new Intent(InformationTabsActivity.this, FormFillActivity.class);
+                            intent.putExtra("Action", "ADD_CHILD");
+                            startActivity(intent);
+                        }else if(id==R.id.update_child){
+                            Intent intent = new Intent(InformationTabsActivity.this, FormFillActivity.class);
+                            intent.putExtra("Action", "UPDATE_CHILD");
+                            startActivity(intent);
+                        }
                         menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
                         return true;

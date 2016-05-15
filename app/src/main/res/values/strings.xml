@@ -15,7 +15,7 @@
     </string>
     <string name="facebook_app_id">228613244167748</string>
     <string name="submit_form">Submit</string>
-    <string name="next_form">Next</string>
+    <string name="next">Next</string>
     <string name="form_heading">Child Details</string>
     <string name="enter_otp">_ _ _ _ _</string>
     <string name="confirm_otp">CONFIRM</string>
@@ -29,4 +29,16 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="pincode">Pincode</string>
+    <string-array name="quantity">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
 </resources>

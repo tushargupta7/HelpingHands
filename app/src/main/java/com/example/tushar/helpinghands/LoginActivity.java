@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -125,7 +126,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         adminLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(++tapCount >= 7) {
+                if(++tapCount >= 1) {
                     tapCount=0;
                     showAdminLoginDialog();
                 }
@@ -214,8 +215,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.admin_verify) {
-            if (adminPassword.getText().toString().equals("tushar")) {
-                Intent intent = new Intent(LoginActivity.this, FormFillActivity.class);
+            if (adminPassword.getText().toString().equals("t")) {
+                Preferences.getInstance(this).setLoggeInAsAdmin(true);
+                Intent intent = new Intent(LoginActivity.this, InformationTabsActivity.class);
                 startActivity(intent);
             }
             adminDialog.dismiss();
@@ -226,9 +228,15 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         }else if(id==R.id.email_sign_in_button){
            // attemptLogin();
         }else if(id==R.id.skip_registration){
+            Preferences.getInstance(this).setLoggeInAsAdmin(false);
             Intent intent = new Intent(LoginActivity.this, InformationTabsActivity.class);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 
     private void doOtpRequestCall() {

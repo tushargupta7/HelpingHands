@@ -46,4 +46,19 @@
         </menu>
     </item>
 
+    <item android:title="Admin Tools"
+        android:id="@+id/admin_tools"
+        android:visible="false">
+        <menu>
+            <item
+                android:id="@+id/add_child"
+                android:icon="@drawable/ic_dashboard"
+                android:title="Add Child" />
+            <item
+                android:id="@+id/update_child"
+                android:icon="@drawable/ic_forum"
+                android:title="Update Child" />
+        </menu>
+    </item>
+
 </menu>

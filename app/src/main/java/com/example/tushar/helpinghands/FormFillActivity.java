@@ -3,15 +3,14 @@ package com.example.tushar.helpinghands;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -28,7 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +39,7 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
     private EditText childNameText;
     private EditText parentNameText;
     private EditText childSchoolName;
-    private EditText date;
+    private EditText childDob;
     private EditText address;
     private EditText contactNumber;
     private EditText email;
@@ -49,18 +47,36 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
     private EditText childHighClass;
     private EditText childPerfo;
     private EditText pIncome;
-    private Button nextChildButton;
-    private Button submitButton;
+    private Button addNextButton;
+    private Button updateSubmitButton;
+    private ScrollView addChildSection;
+    private ScrollView updateChildSection;
     private ArrayList<ChildDetails> childrenList;
     private Spinner spinner;
     private TextView notInList;
     private ProgressDialog progDialog;
+    private EditText updateChildNameText;
+    private EditText updateChildDob;
+    private Spinner updateOrphanageName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.children_form);
+        addChildSection = (ScrollView)findViewById(R.id.add_child_section);
+        updateChildSection = (ScrollView)findViewById(R.id.update_child_section);
+        if(getIntent().getStringExtra("Action").equalsIgnoreCase("ADD_CHILD")){
+            addChildSection.setVisibility(View.VISIBLE);
+            updateChildSection.setVisibility(View.GONE);
+        }else{
+            addChildSection.setVisibility(View.GONE);
+            updateChildSection.setVisibility(View.VISIBLE);
+        }
         childrenList=new ArrayList<ChildDetails>();
         childNameText=(EditText)findViewById(R.id.child_name);
+        updateChildNameText = (EditText)findViewById(R.id.update_child_name);
+        updateChildDob = (EditText)findViewById(R.id.update_child_dob);
+        updateOrphanageName = (Spinner)findViewById(R.id.update_orphans_spinner) ;
         parentNameText=(EditText)findViewById(R.id.parent_name);
         spinner = (Spinner) findViewById(R.id.orphans_spinner);
         spinner.setOnItemSelectedListener(this);
@@ -71,7 +87,7 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
 // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
         //childSchoolName=(EditText)findViewById(R.id.child_school);
-        date=(EditText)findViewById(R.id.child_dob);
+        childDob =(EditText)findViewById(R.id.child_dob);
         address=(EditText)findViewById(R.id.child_address);
         contactNumber=(EditText)findViewById(R.id.child_contact);
         childClass=(EditText)findViewById(R.id.child_class);
@@ -86,10 +102,10 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
                 addNewOrphanage();
             }
         });
-        nextChildButton=(Button)findViewById(R.id.next_child_buton);
-        submitButton=(Button)findViewById(R.id.submit_form);
-        submitButton.setOnClickListener(this);
-        nextChildButton.setOnClickListener(this);
+        addNextButton = (Button)findViewById(R.id.add_next_btn);
+        addNextButton.setOnClickListener(this);
+        updateSubmitButton=(Button)findViewById(R.id.update_save_btn);
+        updateSubmitButton.setOnClickListener(this);
 
     }
 
@@ -179,18 +195,28 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.submit_form : {
-                submitDetails();
+            case R.id.add_next_btn : {
+                addChildSection.setVisibility(View.GONE);
+                updateChildSection.setVisibility(View.VISIBLE);
+                importChildDetails();
+
+                /*submitDetails();
                 JSONObject obj=createJson();
                 saveChildrenList(obj);
                 finish();
-                break;
+                break;*/
             }
 
-            case R.id.next_child_buton : {
+            case R.id.update_save_btn : {
                 submitDetails();
             }
         }
+    }
+
+    private void importChildDetails(){
+        updateChildNameText.setText(childNameText.getText());
+        updateChildDob.setText(childDob.getText());
+        updateOrphanageName.setSelection(spinner.getSelectedItemPosition());
     }
 
     private JSONObject createJson() {
@@ -252,12 +278,12 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
         childDetail.setChildAddress(address.getText().toString());
         childDetail.setChildContact(contactNumber.getText().toString());
         childDetail.setChildEmail(email.getText().toString());
-        childDetail.setChildSchool(childSchoolName.getText().toString());
+        //childDetail.setChildSchool(childSchoolName.getText().toString());
         childDetail.setChildClass(childClass.getText().toString());
         childDetail.setChildacadScore(childPerfo.getText().toString());
         childDetail.setChildHighestClass(childHighClass.getText().toString());
         childDetail.setChildParentIncome(pIncome.getText().toString());
-        childDetail.setChildDob(date.getText().toString());
+        childDetail.setChildDob(childDob.getText().toString());
         childrenList.add(childDetail);
     }
 
