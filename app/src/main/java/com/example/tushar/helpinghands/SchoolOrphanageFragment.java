@@ -51,7 +51,7 @@ public class SchoolOrphanageFragment extends Fragment implements View.OnClickLis
         orphanageTab.setOnClickListener(this);
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.schools_list_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        schoolsOrphanagesEntryAdapter = new SchoolsOrphanagesEntryAdapter(orphanageList);
+        schoolsOrphanagesEntryAdapter = new SchoolsOrphanagesEntryAdapter(orphanageList, mContext );
         recyclerView.setAdapter(schoolsOrphanagesEntryAdapter);
         return rootView;
     }

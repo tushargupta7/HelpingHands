@@ -229,12 +229,12 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
                 childrenDetails.put("name", child.getChildName());
                 childrenDetails.put("pname", child.getParentName());
                 childrenDetails.put("perfo", child.getChildacadScore());
-                childrenDetails.put("address", child.getChildAddress());
+              //  childrenDetails.put("address", child.getChildAddress());
                 childrenDetails.put("class", child.getChildClass());
-                childrenDetails.put("contact", child.getChildContact());
+               // childrenDetails.put("contact", child.getChildContact());
                 childrenDetails.put("email", child.getChildEmail());
                 childrenDetails.put("hclass", child.getChildHighestClass());
-                childrenDetails.put("school", child.getChildSchool());
+              //  childrenDetails.put("school", child.getChildSchool());
                 childrenDetails.put("pincome", child.getChildParentIncome());
                 childrenDetails.put("dob",child.getChildDob());
                 childArray.put(childrenDetails);
@@ -275,8 +275,8 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
         ChildDetails childDetail= new ChildDetails();
         childDetail.setChildName(childNameText.getText().toString());
         childDetail.setParentName(parentNameText.getText().toString());
-        childDetail.setChildAddress(address.getText().toString());
-        childDetail.setChildContact(contactNumber.getText().toString());
+       // childDetail.setChildAddress(address.getText().toString());
+      //  childDetail.setChildContact(contactNumber.getText().toString());
         childDetail.setChildEmail(email.getText().toString());
         //childDetail.setChildSchool(childSchoolName.getText().toString());
         childDetail.setChildClass(childClass.getText().toString());

@@ -2,15 +2,11 @@ package com.example.tushar.helpinghands;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -19,25 +15,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentDetailsActivity extends AppCompatActivity {
+public class OrphanageDetailsActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
-    private StudentEntries studentEntry;
+    private SchoolOrphanageEntries schoolOrphanageEntry;
     private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_details);
+        setContentView(R.layout.activity_orphanage_details);
         intent = getIntent();
-        studentEntry = (StudentEntries) intent.getSerializableExtra("StudentEntry");
+        schoolOrphanageEntry = (SchoolOrphanageEntries) intent.getSerializableExtra("OrphanageEntry");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -79,9 +72,9 @@ public class StudentDetailsActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new StudentDetailsFragment(this, intent, studentEntry), "Details");
-        adapter.addFragment(new StudentDetailsFragment(this, intent, studentEntry), "Requirements");
-        adapter.addFragment(new StudentDetailsFragment(this, intent, studentEntry), "Fulfilled");
+        adapter.addFragment(new OrphanageDetailsFragment(this, intent, schoolOrphanageEntry), "Details");
+        adapter.addFragment(new OrphanageDetailsFragment(this, intent, schoolOrphanageEntry), "Requirements");
+        adapter.addFragment(new OrphanageDetailsFragment(this, intent, schoolOrphanageEntry), "Fulfilled");
         viewPager.setAdapter(adapter);
     }
 

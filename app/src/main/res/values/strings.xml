@@ -20,7 +20,8 @@
     <string name="enter_otp">_ _ _ _ _</string>
     <string name="confirm_otp">CONFIRM</string>
     <string name="title_activity_information_tabs">InformationTabsActivity</string>
-    <string name="title_activity_student_details">StudentDetailsActivity</string>
+    <string name="title_activity_student_details">StudentDetails</string>
+    <string name="title_activity_orphanage_details">OrphanageDetails</string>
     <string name="add_new_orphanage"><U>Not in list</U></string>
     <string name="orphanage_name">Orphanage Name</string>
     <string name="orphanage_address_L1">Address Line1</string>

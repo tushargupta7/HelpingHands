@@ -1,9 +1,11 @@
 package com.example.tushar.helpinghands;
 
+import java.io.Serializable;
+
 /**
  * Created by hussain on 13/4/16.
  */
-public class SchoolOrphanageEntries {
+public class SchoolOrphanageEntries implements Serializable {
 
     private String schoolName, contactNo, emailId, address;
     private Integer strength;
@@ -17,7 +19,7 @@ public class SchoolOrphanageEntries {
         this.address = address;
     }
 
-    public String getSchoolName(){
+    public String getName(){
         return schoolName;
     }
 

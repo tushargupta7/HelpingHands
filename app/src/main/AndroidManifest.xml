@@ -46,6 +46,13 @@
             android:name=".StudentDetailsActivity"
             android:label="@string/title_activity_student_details"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity
+            android:name=".OrphanageDetailsActivity"
+            android:label="@string/title_activity_orphanage_details"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+
     </application>
 
 </manifest>

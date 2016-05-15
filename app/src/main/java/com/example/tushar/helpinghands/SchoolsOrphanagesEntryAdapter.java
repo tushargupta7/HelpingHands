@@ -1,11 +1,14 @@
 package com.example.tushar.helpinghands;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -14,9 +17,11 @@ import java.util.List;
 public class SchoolsOrphanagesEntryAdapter extends RecyclerView.Adapter<SchoolsOrphanagesEntryAdapter.ViewHolder>{
 
     private static List<SchoolOrphanageEntries> schoolOrphanageEntries = null;
+    private static Context context;
 
-    public SchoolsOrphanagesEntryAdapter(List<SchoolOrphanageEntries> schoolOrphanageEntries) {
+    public SchoolsOrphanagesEntryAdapter(List<SchoolOrphanageEntries> schoolOrphanageEntries, Context context) {
         this.schoolOrphanageEntries = schoolOrphanageEntries;
+        this.context = context;
     }
 
     public void addAll(List<SchoolOrphanageEntries> schoolEntriesList){
@@ -37,7 +42,7 @@ public class SchoolsOrphanagesEntryAdapter extends RecyclerView.Adapter<SchoolsO
     @Override
     public void onBindViewHolder(SchoolsOrphanagesEntryAdapter.ViewHolder holder, int position) {
         SchoolOrphanageEntries schoolEntry = schoolOrphanageEntries.get(position);
-        holder.schoolName.setText(schoolEntry.getSchoolName());
+        holder.schoolName.setText(schoolEntry.getName());
         holder.schoolStrength.setText(Integer.toString(schoolEntry.getStrength()));
         holder.schoolContactNo.setText(schoolEntry.getContactNo());
         holder.schoolEmailId.setText(schoolEntry.getEmailId());
@@ -58,9 +63,9 @@ public class SchoolsOrphanagesEntryAdapter extends RecyclerView.Adapter<SchoolsO
 
         @Override
         public void onClick(View v) {
-            /*Intent intent = new Intent(context, StudentDetailsActivity.class);
-            intent.putExtra("StudentEntry", (Serializable)studentEntries.get(v.getVerticalScrollbarPosition()));
-            context.startActivity(intent);*/
+            Intent intent = new Intent(context, OrphanageDetailsActivity.class);
+            intent.putExtra("OrphanageEntry", (Serializable)schoolOrphanageEntries.get(v.getVerticalScrollbarPosition()));
+            context.startActivity(intent);
         }
 
         public ViewHolder(View view) {

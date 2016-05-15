@@ -20,4 +20,16 @@
         android:id="@+id/action_settings"
         android:title="Settings"
         app:showAsAction="never" />
+    <item
+
+        android:title="About"
+        app:showAsAction="never" />
+    <item
+
+        android:title="Action1"
+        app:showAsAction="never" />
+    <item
+
+        android:title="Action2"
+        app:showAsAction="never" />
 </menu>
