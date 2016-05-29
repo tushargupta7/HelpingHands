@@ -26,13 +26,12 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:cardview-v7:23.0.+'
+    compile 'com.android.support:cardview-v7:23.4.0'
     compile 'com.android.support:recyclerview-v7:23.0.+'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
-    compile files('libs/glide-3.6.0-94a92e5f784db6d1b72e9b9a63fd1ba332377a38.jar')
     compile files('libs/glide-3.6.0.jar')
 }

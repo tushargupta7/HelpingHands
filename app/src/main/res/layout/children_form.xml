@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="20dp"
+    android:background="@color/com_facebook_button_background_color_disabled">
 
     <ScrollView
         android:id="@+id/add_child_section"
@@ -204,14 +205,15 @@
                 android:hint="DOB (DD/MM/YY)"
                 android:inputType="date" />
 
-            <Spinner
+            <TextView
                 android:id="@+id/update_orphans_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:entries="@array/planets_array"
                 android:layout_gravity="center_vertical" />
 
-            <LinearLayout
+
+         <!--   <LinearLayout
+                android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -316,7 +318,14 @@
                     android:layout_weight="1"
                     android:entries="@array/quantity"></Spinner>
             </LinearLayout>
+-->
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:id="@+id/requirements_linear_layout"
+                android:orientation="vertical"></LinearLayout>
 
             <Button
                 android:id="@+id/update_save_btn"
@@ -326,9 +335,7 @@
                 android:minWidth="80dp"
                 android:text="@string/save" />
 
-
         </LinearLayout>
-
 
     </ScrollView>
 </LinearLayout>

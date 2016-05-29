@@ -32,8 +32,8 @@ public class StudentEntries implements Serializable {
     private transient JSONArray requirements;
     private transient JSONArray fulfilled;*/
 
-    public StudentEntries(String id, String name, String dob, String pname, String school, String email,
-                          String address, String perfo, String pincome, String cclass, String contact,String hclass){
+    public StudentEntries(String id, String name, String dob, String pname, String orphanageId,String orphanageName, String email,
+                           String perfo, String pincome, String cclass, String hclass){
         this.id = id;
         this.dob=dob;
         /*this.imageUrl = imageUrl;
@@ -43,10 +43,8 @@ public class StudentEntries implements Serializable {
         this.pname=pname;
         this.performance = perfo;
         this.income = pincome;
-        this.school = school;
         this.email = email;
-        this.phoneNo = contact;
-        this.address = address;
+        this.orphanage=orphanageId+" "+orphanageName;
         this.highClass=hclass;/*
         this.latitude = latitude;
         this.longitude = longitude;

@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 showOtpBox();
             }
         });
-        url="http://192.168.1.5:3000/";
+        url=Constants.Url;
         //url=((HelpingHandsApplication)getApplicationContext()).getUrl();
       //  mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         skipRegistration = (TextView)findViewById(R.id.skip_registration);
@@ -513,7 +513,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         final String TAG = "helping hand otp";
         dialog.setContentView(R.layout.custom_dialog);
         dialog.setTitle("Enter OTP ");
-        final String url = "http://192.168.1.6:3000/login";
+        final String url = Constants.Url;
         Button btnOk = (Button) dialog.findViewById(R.id.otp_confirm_button);
         btnOk.setOnClickListener(new OnClickListener() {
             @Override
