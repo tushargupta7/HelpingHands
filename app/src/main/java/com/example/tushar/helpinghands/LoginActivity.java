@@ -2,11 +2,8 @@ package com.example.tushar.helpinghands;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.util.ArrayMap;
@@ -15,39 +12,27 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import User.UserDetails;
 
@@ -56,28 +41,9 @@ import static com.android.volley.Request.Method;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements OnClickListener {
+public class LoginActivity extends AppCompatActivity implements OnClickListener,CompoundButton.OnCheckedChangeListener {
 
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
-    private ImageView fbProfilePic;
-    private static final int REQUEST_READ_CONTACTS = 0;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-
-    // UI references.
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
     private CallbackManager callbackManager;
@@ -92,6 +58,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private TextView skipRegistration;
     private ArrayList<String> adminList;
     private EditText mobileTextBox;
+    private EditText passwordBox;
     private JSONObject abc;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -100,21 +67,27 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private UserDetails user;
     private String url;
     private Dialog dialog;
+    private CheckBox autoSignIn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(this.getApplicationContext());
+       // FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.activity_login);
-        showOpeningAppDialog();
-        // Set up the login form.
+        if(Preferences.getInstance(LoginActivity.this).isAutoLogin()){
+            initiateLogin(null);
+        }
+       // showOpeningAppDialog();
+
         mobileTextBox = (EditText) findViewById(R.id.mobile_text_box);
-        userDetails = new UserDetails();
+        passwordBox=(EditText)findViewById(R.id.password_edit);
+        autoSignIn=(CheckBox)findViewById(R.id.stay_signed_in);
+        autoSignIn.setOnCheckedChangeListener(this);
+        //userDetails = new UserDetails();
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 doOtpRequestCall();
-                showOtpBox();
             }
         });
         url=Constants.Url;
@@ -145,17 +118,13 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 return false;
             }
         });*/
-
-        mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(this);
-
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
         adminList = new ArrayList<String>();
         adminList.add("tushar gupta");
 
-        fbProfilePic = (ImageView) findViewById(R.id.fb_pro_pic);
+      /*  fbProfilePic = (ImageView) findViewById(R.id.fb_pro_pic);
         LoginButton button = (LoginButton) findViewById(R.id.login_button);
         button.setReadPermissions(Arrays.asList(
                 "public_profile", "email", "user_birthday", "user_friends"));
@@ -206,7 +175,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                         Log.v("LoginActivity", exception.getCause().toString());
                     }
                 });
-
+*/
       //  launchFormPage();
     }
 
@@ -225,9 +194,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             if (adminDialog != null) {
                 adminDialog.dismiss();
             }
-        }else if(id==R.id.email_sign_in_button){
-           // attemptLogin();
-        }else if(id==R.id.skip_registration){
+        }
+        else if(id==R.id.skip_registration){
             Preferences.getInstance(this).setLoggeInAsAdmin(false);
             Intent intent = new Intent(LoginActivity.this, InformationTabsActivity.class);
             startActivity(intent);
@@ -241,191 +209,19 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
     private void doOtpRequestCall() {
 
-       /* AsyncTask a=new AsyncTask(this);
-        try {
-            JSONObject json=a.execute().get(200,TimeUnit.SECONDS);
-            Log.d("final otp json",json.toString());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        catch (TimeoutException e){
-            e.printStackTrace();
-        }*/
         otpThread abc=new otpThread();
         abc.start();
-        /*final ExecutorService service;
-        final Future<JSONObject> task;
 
-        service = Executors.newFixedThreadPool(10);
-        task = service.submit(new otpThread());
-        JSONObject str=new JSONObject();
-        try {
-
-            str = task.get();
-            Log.d("otp",str.toString());
-        } catch (final InterruptedException ex) {
-            ex.printStackTrace();
-        } catch (final ExecutionException ex) {
-            ex.printStackTrace();
-        }
-        service.shutdown();*/
-       /* final ExecutorService service;
-        final Future<JSONObject> task;
-
-        service = Executors.newFixedThreadPool(1);
-        task = service.submit(new otpThread());
-        final JSONObject str;
-        try {
-
-            str = task.get(10, TimeUnit.SECONDS);
-            // waits the 10 seconds for the Callable.call to finish.
-                 // this raises ExecutionException if thread dies
-            Log.d("otp",str.toString());
-        } catch (final InterruptedException ex) {
-            ex.printStackTrace();
-        } catch (final ExecutionException ex) {
-            ex.printStackTrace();
-        }
-        catch (TimeoutException e) {
-            e.printStackTrace();
-        }
-        try {
-            System.out.println("attempt to shutdown executor");
-            service.shutdown();
-            service.awaitTermination(5, TimeUnit.SECONDS);
-        }
-        catch (InterruptedException e) {
-            System.err.println("tasks interrupted");
-        }
-        finally {
-            if (!service.isTerminated()) {
-                System.err.println("cancel non-finished tasks");
-            }
-            service.shutdownNow();
-            System.out.println("shutdown finished");
-        }*/
-        //}
-        /*final String url = "http://192.168.1.2:3000/login";
-        final Map<String, String> mHeader = new ArrayMap<>();
-        JSONObject a = new JSONObject();
-        mHeader.put("Content-Type", "application/json; charset=utf-8");
-    *//*new Thread(new Runnable() {
-            @Override
-            public void run() {*//*
-        final Map<String, String> params = new HashMap<String, String>();
-        params.put("mobile", mobileTextBox.getText().toString());
-        RequestFuture<JSONObject> future = RequestFuture.newFuture();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Method.POST, url, new JSONObject(params), future, future) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                return mHeader;
-            }
-        };
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(40000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        Volley.newRequestQueue(getBaseContext()).add(jsonObjectRequest);
-
-        try {
-            JSONObject response = future.get(40, TimeUnit.SECONDS);
-            // a=response;
-            Log.d("otp response", response.toString());
-        } catch (TimeoutException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }*/
     }
 
-/*
     @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Login Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.example.tushar.helpinghands/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-    }
-*/
-
- /*   @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Login Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.example.tushar.helpinghands/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
-    }
-    //  }).start();
-    //}*/
-
-    public class AsyncTask extends android.os.AsyncTask<Void , Void , JSONObject> {
-        private Context cntx;
-
-        AsyncTask(Context context){
-            cntx=context;
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(isChecked){
+            Preferences.getInstance(LoginActivity.this).setAutoLogin(true);
         }
-
-        @Override
-        protected JSONObject doInBackground(Void... params) {
-            final String url = "http://192.168.1.2:3000/login";
-            final Map<String, String> mHeader = new ArrayMap<>();
-            JSONObject a = new JSONObject();
-            mHeader.put("Content-Type", "application/json; charset=utf-8");
-    /*new Thread(new Runnable() {
-            @Override
-            public void run() {*/
-            Map<String, String> mparams = new HashMap<String, String>();
-            mparams.put("mobile", "123456");
-            RequestFuture<JSONObject> future = RequestFuture.newFuture();
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Method.POST, url, new JSONObject(mparams), future, future) {
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    return mHeader;
-                }
-            };
-            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(100000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            Volley.newRequestQueue(cntx).add(jsonObjectRequest);
-
-            try {
-                JSONObject response = future.get(200, TimeUnit.SECONDS);
-                // a=response;
-                Log.d("otp response", response.toString());
-                return response;
-            } catch (TimeoutException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-         return null;
+        else {
+            Preferences.getInstance(LoginActivity.this).setAutoLogin(true);
         }
-
     }
 
     public class otpThread extends Thread {
@@ -434,13 +230,46 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         public void run() {
 
             final Map<String,String> mHeader= new ArrayMap<String, String>();
-            //JSONObject a=new JSONObject();
-            String uri=url+"login";
+            String uri=url+"/login";
             mHeader.put("Content-Type", "application/json; charset=utf-8");
             final Map<String,String> params=new HashMap<String, String>();
             params.put("mobile",mobileTextBox.getText().toString());
-            RequestFuture<JSONObject> future = RequestFuture.newFuture();
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Method.POST, uri,new JSONObject(params),future,future){
+            params.put("password",passwordBox.getText().toString());
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Method.POST, uri, new JSONObject(params), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        if(response.getString("status").equalsIgnoreCase("verified") && response.getString("isvalid").equalsIgnoreCase("true")){
+                            initiateLogin(response);
+                        }
+                        else if(response.getString("status").equalsIgnoreCase("verified") && response.getString("isvalid").equalsIgnoreCase("false")) {
+                         runOnUiThread(new Runnable() {
+                             @Override
+                             public void run() {
+                                 Toast.makeText(LoginActivity.this, R.string.enter_correct_password,Toast.LENGTH_SHORT).show();
+                                 passwordBox.setText("");
+                             }
+                         });
+                        }
+                        else{
+                        registerUser(response);
+                            showOtpBox();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(LoginActivity.this, R.string.verify_internet,Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }){
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     return mHeader;
@@ -448,18 +277,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             };
             jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(40000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             Volley.newRequestQueue(getBaseContext()).add(jsonObjectRequest);
-
-            try {
-                JSONObject response = future.get(40, TimeUnit.SECONDS);
-                Log.d("otp response",response.toString());
-                tryFunction(response);
-            } catch (TimeoutException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
         }
 
         /*@Override
@@ -493,15 +310,48 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         }*/
     }
 
-    private void tryFunction(JSONObject response)  {
-      abc=response;
-        Log.d("otp abc",abc.toString());
-        user=new UserDetails();
+    private void initiateLogin(JSONObject user) {
+        if(user!=null){   //Not overwriting on auto login
+        addUserDetailsToPreferences(user);}
+        Intent intent = new Intent(LoginActivity.this, InformationTabsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    private void addUserDetailsToPreferences(JSONObject user) {
+       Preferences pref= Preferences.getInstance(LoginActivity.this);
         try {
-            user.setUuid(response.getString("UUID"));
+            pref.setUserUid(user.getString("uuid"));
+            pref.setUserToken(user.getString("token"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void registerUser(JSONObject response)  {
+      //abc=response;
+        Log.d("otp abc",response.toString());
+        user=UserDetails.getInstance();
+        try {
+            user.setUuid(response.getString("uuid"));
             user.setStatus(response.getString("status"));
             user.setToken(response.getString("token"));
             user.setMobile(response.getString("mobile"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void updateUser(JSONObject response)  {
+        //abc=response;
+        Log.d("otp abc",response.toString());
+        user=UserDetails.getInstance();
+        try {
+            user.setUuid(response.getString("uuid"));
+            user.setStatus(response.getString("status"));
+            user.setToken(response.getString("token"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -537,15 +387,31 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             @Override
             public void run() {
                 final Map<String,String> mHeader= new ArrayMap<String, String>();
-                //JSONObject a=new JSONObject();
-                String uri=url+"verify";
+                String uri=url+"/verify";
                 mHeader.put("Content-Type", "application/json; charset=utf-8");
                 final Map<String,String> params=new HashMap<String, String>();
                 final EditText otpText = (EditText) dialog.findViewById(R.id.otp_box);
                 params.put("otp",otpText.getText().toString());
                 params.put("uuid",user.getUuid());
-                RequestFuture<JSONObject> future = RequestFuture.newFuture();
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Method.POST, uri,new JSONObject(params),future,future){
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Method.POST, uri, new JSONObject(params), new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                    updateUser(response);
+                        dialog.dismiss();
+                        initiateLogin(response);
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                          Toast.makeText(LoginActivity.this, R.string.re_enter_otp,Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }){
                     @Override
                     public Map<String, String> getHeaders() throws AuthFailureError {
                         return mHeader;
@@ -553,18 +419,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 };
                 jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(40000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                 Volley.newRequestQueue(getBaseContext()).add(jsonObjectRequest);
-
-                try {
-                    JSONObject response = future.get(40, TimeUnit.SECONDS);
-                    Log.d("otp response",response.toString());
-                    tryFunction(response);
-                } catch (TimeoutException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
             }
         }).start();
     }
@@ -620,7 +474,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         startActivity(formPageLaunch);
     }
 
-    public void setFacebookProfilePicture(String userId) {
+  /*  public void setFacebookProfilePicture(String userId) {
         //Bitmap bitmap = null;
         Runnable r = new MyThread(userId);
         new Thread(r).start();
@@ -650,12 +504,12 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 }
             });
         }
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+    //    callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }
 

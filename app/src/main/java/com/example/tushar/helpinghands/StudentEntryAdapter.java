@@ -1,22 +1,19 @@
 package com.example.tushar.helpinghands;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,11 +40,29 @@ public class StudentEntryAdapter extends RecyclerView.Adapter<StudentEntryAdapte
     @Override
     public void onBindViewHolder(StudentEntryAdapter.ViewHolder holder, int position) {
         StudentEntries studentEntry = studentEntries.get(position);
-        holder.studentAge.setText(studentEntry.getDob());
+        holder.studentAge.setText(String.valueOf(getAge(studentEntry.getDob())));
         holder.studentName.setText(studentEntry.getName());
         holder.studentClass.setText(studentEntry.getCclass());
-        holder.studentSchool.setText(studentEntry.getSchool());
+        holder.studentOrphanage.setText(studentEntry.getOrphanage());
         holder.studentImage.setImageResource(R.drawable.helping_hands);
+    }
+
+    private int getAge(String dob) {
+        //String startDateString = "06/27/2007";
+        int age = 0;
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        Date birthDate;
+        Date currentDate;
+        String date=android.text.format.DateFormat.format("dd/MM/yyyy", new java.util.Date()).toString();
+        Calendar today=Calendar.getInstance();
+
+            String[] dobarr=dob.split("/");
+            String[] curarr=date.toString().split("/");
+            Integer dbYY=Integer.parseInt(dobarr[2]);
+            Integer bdMM=Integer.parseInt(curarr[2]);
+            age=bdMM-dbYY;
+
+        return age;
     }
 
     @Override
@@ -61,7 +76,7 @@ public class StudentEntryAdapter extends RecyclerView.Adapter<StudentEntryAdapte
         public TextView studentName;
         public TextView studentClass;
         public TextView studentAge;
-        public TextView studentSchool;
+        public TextView studentOrphanage;
 
         @Override
         public void onClick(View v) {
@@ -77,7 +92,7 @@ public class StudentEntryAdapter extends RecyclerView.Adapter<StudentEntryAdapte
             studentAge = (TextView)view.findViewById(R.id.edit_age);
             studentName = (TextView)view.findViewById(R.id.edit_student_name);
             studentClass = (TextView)view.findViewById(R.id.edit_class);
-            studentSchool = (TextView)view.findViewById(R.id.edit_school_name);
+            studentOrphanage = (TextView)view.findViewById(R.id.edit_orphanage_name);
 
         }
     }

@@ -27,6 +27,7 @@ public class StudentEntries implements Serializable {
     private String registeredAt;
     private String dob;
     private String highClass;
+    private String orphanageId;
  /*   private float latitude;
     private float longitude;
     private transient JSONArray requirements;
@@ -44,7 +45,8 @@ public class StudentEntries implements Serializable {
         this.performance = perfo;
         this.income = pincome;
         this.email = email;
-        this.orphanage=orphanageId+" "+orphanageName;
+        this.orphanageId=orphanageId;
+        this.orphanage=orphanageName;
         this.highClass=hclass;/*
         this.latitude = latitude;
         this.longitude = longitude;

@@ -23,10 +23,7 @@ import java.util.List;
  * Created by hussain on 10/4/16.
  */
 public class RecentTransactionsFragment extends Fragment {
-    private static Context mContext;
-    public RecentTransactionsFragment(Context context){
-        mContext = context;
-    }
+
 
     @Nullable
     @Override
@@ -35,16 +32,16 @@ public class RecentTransactionsFragment extends Fragment {
         View rootView = inflater.inflate(
                 R.layout.recent_transactions_layout, container, false);
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recent_transactions_list_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        recyclerView.setAdapter(getAdapter());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(getAdapter(getContext()));
         return rootView;
     }
 
-    private static RecentTransactionsAdapter getAdapter() {
+    private static RecentTransactionsAdapter getAdapter(Context context) {
         String myJsonString = null;
         List<RecentTransactionEntries> transactionList = null;
         try {
-            myJsonString = AssetJSONFile("childeren.json");
+            myJsonString = AssetJSONFile("childeren.json",context);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -68,11 +65,11 @@ public class RecentTransactionsFragment extends Fragment {
         return transactionsAdapter;
     }
 
-    public static String AssetJSONFile(String filename) throws IOException {
+    public static String AssetJSONFile(String filename,Context context) throws IOException {
         String json = null;
         try {
 
-            InputStream is = mContext.getAssets().open("children.json");
+            InputStream is = context.getAssets().open("children.json");
 
             int size = is.available();
 

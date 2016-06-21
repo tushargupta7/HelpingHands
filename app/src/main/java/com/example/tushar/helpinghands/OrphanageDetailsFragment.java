@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide;
 public class OrphanageDetailsFragment extends Fragment {
     private static Context mContext;
     private Intent mIntent;
-    private SchoolOrphanageEntries orphanageData;
+    private OrphanageEntries orphanageData;
     private TextView mClass;
     private TextView mAge;
     private TextView mGender;
@@ -37,7 +37,7 @@ public class OrphanageDetailsFragment extends Fragment {
 
     }
 
-    public OrphanageDetailsFragment(Context context, Intent intent, SchoolOrphanageEntries entry){
+    public OrphanageDetailsFragment(Context context, Intent intent, OrphanageEntries entry){
         mContext = context;
         mIntent = intent;
         orphanageData = entry;

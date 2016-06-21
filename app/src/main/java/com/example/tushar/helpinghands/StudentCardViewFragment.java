@@ -57,11 +57,10 @@ public class StudentCardViewFragment extends Fragment {
         String childListUrl =Url+"/childrenlist";
 
         HashMap<String,String> param= new HashMap<>();
-        param.put("uuid", "be0a16f8-340b-b9bc-7226-1d9572c05f4f");
-        param.put("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiZTBhMTZmOC0zNDBiLWI5YmMtNzIyNi0xZDk1NzJjMDVmNGYifQ.SXzBKwK3_S8TbAQWkr8EsjtpNF2ug-8cGbcI2A04NSg");
+        param.put("uuid", Preferences.getInstance(getContext()).getUserUid());
+        param.put("token",Preferences.getInstance(getContext()).getUserToken());
         final HashMap<String,String> mHeader=new HashMap<>();
         mHeader.put("Content-Type", "application/json; charset=utf-8");
-        RequestFuture<JSONObject> future = RequestFuture.newFuture();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, childListUrl, new JSONObject(param), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -80,8 +79,6 @@ public class StudentCardViewFragment extends Fragment {
         };
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(40000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(cntx).add(jsonObjectRequest);
-
-
     }
 
 

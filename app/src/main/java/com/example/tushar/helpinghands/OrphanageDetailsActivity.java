@@ -22,7 +22,7 @@ import java.util.List;
 public class OrphanageDetailsActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
-    private SchoolOrphanageEntries schoolOrphanageEntry;
+    private OrphanageEntries schoolOrphanageEntry;
     private Intent intent;
 
     @Override
@@ -30,7 +30,7 @@ public class OrphanageDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orphanage_details);
         intent = getIntent();
-        schoolOrphanageEntry = (SchoolOrphanageEntries) intent.getSerializableExtra("OrphanageEntry");
+        schoolOrphanageEntry = (OrphanageEntries) intent.getSerializableExtra("OrphanageEntry");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

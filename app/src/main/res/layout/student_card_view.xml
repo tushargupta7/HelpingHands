@@ -72,12 +72,12 @@
                 android:layout_marginTop="7dp" />
 
             <TextView
-                android:id="@+id/school"
+                android:id="@+id/orphanage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lines="1"
                 android:textStyle="bold"
-                android:text="School Name : "
+                android:text="@string/orphanage"
                 android:layout_marginLeft="20dp"
                 android:textColor="@color/black"
                 android:textSize="15dp"
@@ -114,7 +114,7 @@
                     android:layout_marginTop="7dp" />
 
                 <TextView
-                    android:id="@+id/edit_school_name"
+                    android:id="@+id/edit_orphanage_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="1"

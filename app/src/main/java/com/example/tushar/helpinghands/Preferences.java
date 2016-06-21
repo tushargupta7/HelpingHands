@@ -11,6 +11,9 @@ public class Preferences {
     public static final String FIRST_LOGIN_ATTEMPT = "FIRST_LOGIN_ATTEMPT";
     public static final String STAY_SIGNED_IN = "STAY_SIGNED_IN";
     public static final String ADMIN_LOGIN = "ADMIN_LOGIN";
+    public static final String USER_UID="uuid";
+    public static final String USER_TOKEN="token";
+    private static final String AUTO_LOGIN = "false";
     private static Preferences mInstance;
     private Context mContext;
     private SharedPreferences mPrefs;
@@ -40,6 +43,28 @@ public class Preferences {
         e.apply();
     }
 
+    public void setUserUid(String value){
+        writePreference(USER_UID,value);
+    }
+    public void setAutoLogin(boolean value){
+        writePreference(AUTO_LOGIN,value);
+    }
+
+    public boolean isAutoLogin(){
+        return mPrefs.getBoolean(AUTO_LOGIN,false);
+    }
+
+    public void setUserToken(String value){
+        writePreference(USER_TOKEN,value);
+    }
+
+    public String getUserUid(){
+       return mPrefs.getString(USER_UID,null);
+    }
+
+    public String getUserToken(){
+        return mPrefs.getString(USER_TOKEN,null);
+    }
     public void setLoggeInAsAdmin(boolean value) {
         writePreference(ADMIN_LOGIN, value);
     }

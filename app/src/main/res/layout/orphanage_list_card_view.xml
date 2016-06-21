@@ -22,25 +22,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_weight="2">
+                android:layout_weight="1.8">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="Name               :"
+                    android:text="@string/name"
                     android:lines="1"
-                    android:layout_marginLeft="20dp"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:layout_marginTop="7dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:lines="1"
-                    android:textStyle="bold"
-                    android:text="Strength          :"
                     android:layout_marginLeft="20dp"
                     android:textColor="@color/black"
                     android:textSize="15dp"
@@ -51,31 +40,45 @@
                     android:layout_height="wrap_content"
                     android:lines="1"
                     android:textStyle="bold"
-                    android:text="Contact no      :"
+                    android:text="@string/strength"
                     android:layout_marginLeft="20dp"
                     android:textColor="@color/black"
                     android:textSize="15dp"
                     android:layout_marginTop="7dp" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="1"
                     android:textStyle="bold"
-                    android:text="Email Id            :"
+                    android:text="@string/contact"
                     android:layout_marginLeft="20dp"
                     android:textColor="@color/black"
                     android:textSize="15dp"
                     android:layout_marginTop="7dp" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="2"
                     android:textStyle="bold"
-                    android:text="Address           :"
+                    android:text="@string/address"
                     android:layout_marginLeft="20dp"
                     android:textColor="@color/black"
                     android:textSize="15dp"
                     android:layout_marginTop="7dp" />
+                
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="@string/pincode"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    android:layout_marginTop="7dp"
+                    
+                    />
 
             </LinearLayout>
 
@@ -86,7 +89,7 @@
                 android:layout_weight="4">
 
                 <TextView
-                    android:id="@+id/edit_school_name"
+                    android:id="@+id/edit_orphanage_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
@@ -97,7 +100,7 @@
                     android:layout_marginTop="7dp" />
 
                 <TextView
-                    android:id="@+id/edit_school_strength"
+                    android:id="@+id/edit_orphanage_strength"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="1"
@@ -108,7 +111,7 @@
                     android:layout_marginTop="7dp" />
 
                 <TextView
-                    android:id="@+id/edit_school_phone_no"
+                    android:id="@+id/edit_orphanage_phone_no"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="1"
@@ -117,22 +120,24 @@
                     android:layout_marginLeft="20dp"
                     android:textSize="15dp"
                     android:layout_marginTop="7dp" />
+
                 <TextView
-                    android:id="@+id/edit_school_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:lines="1"
-                    android:textStyle="bold"
-                    android:text="Tushar"
-                    android:layout_marginLeft="20dp"
-                    android:textSize="15dp"
-                    android:layout_marginTop="7dp" />
-                <TextView
-                    android:id="@+id/edit_school_address"
+                    android:id="@+id/edit_orphanage_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="2"
                     android:ellipsize="end"
+                    android:textStyle="bold"
+                    android:text="Tushar"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="15dp"
+                    android:layout_marginTop="7dp" />
+
+                <TextView
+                    android:id="@+id/edit_orphanage_picode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
                     android:textStyle="bold"
                     android:text="Tushar"
                     android:layout_marginLeft="20dp"

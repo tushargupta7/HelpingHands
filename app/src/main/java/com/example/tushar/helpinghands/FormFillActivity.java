@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -68,6 +69,7 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
     private ArrayList<String> orphanageList;
     private Object requirementList;
     private ArrayList<Requirements> requirementArrayList;
+    private String stuId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -247,9 +249,9 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
             case R.id.add_next_btn: {
                 addChildSection.setVisibility(View.GONE);
                 submitStudentDetails();
-                JSONObject obj = createJson();
-                //  saveChildrenList(obj);
-                //importChildDetails();
+             //   JSONObject obj = createJson();
+             //   saveChildrenList(obj);
+                importChildDetails();
                 getRequirementList();
                 break;
                 /*submitStudentDetails();
@@ -267,12 +269,59 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
 
     private void saveStudentRequirement() {
 
+        JSONObject jsonObject=new JSONObject();
+        if(stuId==null){
+            return;
+        }
+        try {
+        jsonObject.put("stuid",stuId);
+        JSONArray requiredJsonArray=new JSONArray();
+
+        for(int i=0;i<requirementArrayList.size();i++) {
+            Requirements reqObj = requirementArrayList.get(i);
+            if (reqObj.getStatus().equalsIgnoreCase("required")) {
+                JSONObject prodReqJson = new JSONObject();
+                prodReqJson.put("product_id", reqObj.getProdId());
+                prodReqJson.put("quantity", reqObj.getAmount());
+                requiredJsonArray.put(prodReqJson);
+            }
+        }
+            jsonObject.put("requirements", requiredJsonArray);
+        }
+        catch (JSONException e){
+                e.printStackTrace();
+            }
+        sendRequirementJsonToServer(jsonObject);
+     }
+
+    private void sendRequirementJsonToServer(JSONObject jsonObject) {
+        final Map<String,String> mHeader=new ArrayMap<>();
+        mHeader.put("Content-Type", "application/json; charset=utf-8");
+        JsonObjectRequest request=new JsonObjectRequest(Request.Method.POST, "/sendstudentrequirement",jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return mHeader;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(40000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(this).add(request);
     }
+
 
     private void importChildDetails() {
         updateChildNameText.setText(childNameText.getText());
         updateChildDob.setText(childDob.getText());
-        updateOrphanageName.setText(spinner.getSelectedItemPosition());
+        updateOrphanageName.setText(spinner.getSelectedItem().toString());
 
     }
 
@@ -304,13 +353,17 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
 
     private void saveChildrenList(JSONObject obj) {
         String Url = Constants.Url;
-        String saveChildUrl = Url + "addchild";
+        String saveChildUrl = Url + "/addchild";
         final HashMap<String, String> mHeader = new HashMap<>();
         mHeader.put("Content-Type", "application/json; charset=utf-8");
         JsonObjectRequest saveChildRequest = new JsonObjectRequest(Request.Method.POST, saveChildUrl, obj, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d("saveCHild Result", response.toString());
+                try{stuId=response.getString("studentid");}
+            catch (JSONException e){
+            e.printStackTrace();
+            }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -367,8 +420,18 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void getRequirementList() {
+        String orphanageId=childrenList.get(0).getChildOrphanageId();
         String requirementUrl = Constants.Url + "/getrequirements";
-        JsonObjectRequest requiremnetsJson = new JsonObjectRequest(Request.Method.GET, requirementUrl, new Response.Listener<JSONObject>() {
+        JSONObject reqJson=new JSONObject();
+        try {
+            reqJson.put("orphid", orphanageId);
+        }
+        catch (JSONException e){
+            e.printStackTrace();
+        }
+        final HashMap<String, String> mheader = new HashMap<>();
+        mheader.put("Content-Type", "application/json; charset=utf-8");
+        JsonObjectRequest requiremnetsJson = new JsonObjectRequest(Request.Method.POST, requirementUrl,reqJson, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 createRequirementArrayList(response);
@@ -378,7 +441,12 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
             public void onErrorResponse(VolleyError error) {
 
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return mheader;
+            }
+        };
         requiremnetsJson.setRetryPolicy(new DefaultRetryPolicy(40000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(getBaseContext()).add(requiremnetsJson);
     }
@@ -386,9 +454,10 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
     private void createRequirementArrayList(JSONObject requireListJson) {
         requirementArrayList = new ArrayList<Requirements>();
         try {
-            JSONArray requirementsJsonArray = requireListJson.getJSONArray("requirements");
+            JSONArray requirementsJsonArray = requireListJson.getJSONArray("product");
             for (int i = 0; i < requirementsJsonArray.length(); i++) {
-                Requirements newRequirement = new Requirements(requirementsJsonArray.getString(i));
+                JSONObject requirement=requirementsJsonArray.getJSONObject(i);
+                Requirements newRequirement = new Requirements(requirement.getString("name"),requirement.getString("pid"),requirement.getString("count"));
                 requirementArrayList.add(newRequirement);
             }
         } catch (JSONException e) {
@@ -404,7 +473,7 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
 
         LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        int i = 80;
+       // int i = 80;
         while (iterator.hasNext()) {
             Requirements reqObject = iterator.next();
             CheckBox reqCheck = new CheckBox(getApplicationContext());
@@ -436,6 +505,5 @@ public class FormFillActivity extends AppCompatActivity implements View.OnClickL
                 return;
             }
         }
-
     }
 }
