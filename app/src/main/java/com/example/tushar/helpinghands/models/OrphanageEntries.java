@@ -1,4 +1,4 @@
-package com.example.tushar.helpinghands;
+package com.example.tushar.helpinghands.models;
 
 import java.io.Serializable;
 

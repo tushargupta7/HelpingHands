@@ -16,6 +16,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.tushar.helpinghands.fragments.OrphanageDetailsFragment;
+import com.example.tushar.helpinghands.models.OrphanageEntries;
+
 import java.util.ArrayList;
 import java.util.List;
 

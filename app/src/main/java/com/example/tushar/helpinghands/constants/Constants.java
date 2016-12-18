@@ -1,4 +1,4 @@
-package com.example.tushar.helpinghands;
+package com.example.tushar.helpinghands.constants;
 
 /**
  * Created by tushar on 22/5/16.

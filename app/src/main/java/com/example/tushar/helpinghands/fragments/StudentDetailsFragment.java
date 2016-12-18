@@ -1,4 +1,4 @@
-package com.example.tushar.helpinghands;
+package com.example.tushar.helpinghands.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,14 +13,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.tushar.helpinghands.models.StudentEntries;
 
 /**
  * Created by hussain on 10/4/16.
  */
-public class OrphanageDetailsFragment extends Fragment {
+public class StudentDetailsFragment extends Fragment {
     private static Context mContext;
     private Intent mIntent;
-    private OrphanageEntries orphanageData;
+    private StudentEntries studentData;
     private TextView mClass;
     private TextView mAge;
     private TextView mGender;
@@ -33,14 +34,14 @@ public class OrphanageDetailsFragment extends Fragment {
     private TextView mIncome;
     private View rootView;
 
-    public OrphanageDetailsFragment(){
+    public StudentDetailsFragment(){
 
     }
 
-    public OrphanageDetailsFragment(Context context, Intent intent, OrphanageEntries entry){
+    public StudentDetailsFragment(Context context, Intent intent, StudentEntries entry){
         mContext = context;
         mIntent = intent;
-        orphanageData = entry;
+        studentData = entry;
     }
 
     @Nullable
@@ -48,7 +49,7 @@ public class OrphanageDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(
-                R.layout.orphanage_details_fragment_layout, container, false);
+                R.layout.student_details_fragment_layout, container, false);
 
         mClass = (TextView)rootView.findViewById(R.id.edit_class);
         mAge = (TextView)rootView.findViewById(R.id.edit_age);
@@ -63,7 +64,7 @@ public class OrphanageDetailsFragment extends Fragment {
 
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle(orphanageData.getName());
+        collapsingToolbar.setTitle(studentData.getName());
 
         loadData();
 
@@ -73,16 +74,16 @@ public class OrphanageDetailsFragment extends Fragment {
     private void loadData() {
         final ImageView imageView = (ImageView) rootView.findViewById(R.id.backdrop);
         Glide.with(this).load(R.drawable.cheese_1).centerCrop().into(imageView);
-       /* mClass.setText(orphanageData.getCclass());
-        mAge.setText(orphanageData.getDob());
-        mGender.setText(orphanageData.getGender());
-        mPerforance.setText(orphanageData.getPerformance());
-        mDescription.setText(orphanageData.getDescription());
-        mIncome.setText(orphanageData.getIncome());
-        mEmailId.setText(orphanageData.getEmail());
-        mPhoneNo.setText(orphanageData.getPhoneNo());
-        mAddress.setText(orphanageData.getAddress());
-        mschoolName.setText(orphanageData.getSchool());*/
+        mClass.setText(studentData.getCclass());
+        mAge.setText(studentData.getDob());
+        mGender.setText(studentData.getGender());
+        mPerforance.setText(studentData.getPerformance());
+        mDescription.setText(studentData.getDescription());
+        mIncome.setText(studentData.getIncome());
+        mEmailId.setText(studentData.getEmail());
+        mPhoneNo.setText(studentData.getPhoneNo());
+        mAddress.setText(studentData.getAddress());
+        mschoolName.setText(studentData.getSchool());
     }
 
 }

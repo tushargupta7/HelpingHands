@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.tushar.helpinghands.constants.Constants;
 import com.facebook.CallbackManager;
 
 import org.json.JSONException;
@@ -34,7 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import User.UserDetails;
+import com.example.tushar.helpinghands.models.UserDetails;
 
 import static com.android.volley.Request.Method;
 
@@ -90,7 +91,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
                 doOtpRequestCall();
             }
         });
-        url=Constants.Url;
+        url= Constants.Url;
         //url=((HelpingHandsApplication)getApplicationContext()).getUrl();
       //  mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         skipRegistration = (TextView)findViewById(R.id.skip_registration);

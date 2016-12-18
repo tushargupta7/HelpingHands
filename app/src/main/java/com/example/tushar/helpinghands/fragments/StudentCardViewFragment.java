@@ -1,8 +1,7 @@
-package com.example.tushar.helpinghands;
+package com.example.tushar.helpinghands.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,22 +18,19 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
+import com.example.tushar.helpinghands.constants.Constants;
+import com.example.tushar.helpinghands.Preferences;
+import com.example.tushar.helpinghands.models.StudentEntries;
+import com.example.tushar.helpinghands.adapter.StudentEntryAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 /**
  * Created by hussain on 10/4/16.
@@ -53,7 +49,7 @@ public class StudentCardViewFragment extends Fragment {
     }
 
     public void getChildJsonFromServer( Context cntx) {
-        String Url=Constants.Url;
+        String Url= Constants.Url;
         String childListUrl =Url+"/childrenlist";
 
         HashMap<String,String> param= new HashMap<>();

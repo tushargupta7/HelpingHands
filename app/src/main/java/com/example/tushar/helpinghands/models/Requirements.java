@@ -1,4 +1,4 @@
-package User;
+package com.example.tushar.helpinghands.models;
 
 /**
  * Created by tushar on 24/5/16.

@@ -1,8 +1,6 @@
-package User;
+package com.example.tushar.helpinghands.models;
 
 import android.graphics.Bitmap;
-
-import java.text.DateFormat;
 
 /**
  * Created by tushar on 1/4/16.

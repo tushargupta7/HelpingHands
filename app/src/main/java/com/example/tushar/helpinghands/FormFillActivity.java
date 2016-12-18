@@ -2,10 +2,8 @@ package com.example.tushar.helpinghands;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatCheckBox;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.tushar.helpinghands.constants.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,8 +36,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import User.ChildDetails;
-import User.Requirements;
+import com.example.tushar.helpinghands.models.ChildDetails;
+import com.example.tushar.helpinghands.models.Requirements;
 
 /**
  * Created by tushar on 1/4/16.

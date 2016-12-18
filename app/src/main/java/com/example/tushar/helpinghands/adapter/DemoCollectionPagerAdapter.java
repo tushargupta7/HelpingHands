@@ -1,4 +1,4 @@
-package com.example.tushar.helpinghands;
+package com.example.tushar.helpinghands.adapter;
 
 import android.content.Context;
 import android.content.Intent;
