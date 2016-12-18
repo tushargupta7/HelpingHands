@@ -5,4 +5,5 @@ package com.example.tushar.helpinghands;
  */
 public class Constants {
     public static String Url="http://192.168.43.187:3000";
+    public static String abc="ABC";
 }
