@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.tushar.helpinghands.R;
 import com.example.tushar.helpinghands.models.OrphanageEntries;
 
 /**

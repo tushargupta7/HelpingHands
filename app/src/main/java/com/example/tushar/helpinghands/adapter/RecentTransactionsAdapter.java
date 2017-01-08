@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.tushar.helpinghands.R;
 import com.example.tushar.helpinghands.RecentTransactionEntries;
 
 import java.util.List;

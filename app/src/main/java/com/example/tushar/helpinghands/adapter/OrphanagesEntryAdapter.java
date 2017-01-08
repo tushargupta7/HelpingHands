@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.tushar.helpinghands.OrphanageDetailsActivity;
+import com.example.tushar.helpinghands.R;
 import com.example.tushar.helpinghands.models.OrphanageEntries;
 
 import java.io.Serializable;
@@ -17,7 +18,7 @@ import java.util.List;
 /**
  * Created by hussain on 11/4/16.
  */
-class OrphanagesEntryAdapter extends RecyclerView.Adapter<OrphanagesEntryAdapter.ViewHolder>{
+public class OrphanagesEntryAdapter extends RecyclerView.Adapter<OrphanagesEntryAdapter.ViewHolder>{
 
     private static List<OrphanageEntries> orphanageEntries = null;
     private static Context context;

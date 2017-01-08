@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.tushar.helpinghands.R;
 import com.example.tushar.helpinghands.StudentDetailsActivity;
 import com.example.tushar.helpinghands.models.StudentEntries;
 
